@@ -1,4 +1,6 @@
 AWS_ACCESS_KEY_ID='1234567890'
+AWS_REGION='ap-southeast-2'
 AWS_SECRET_ACCESS_KEY='abcdef123456fedcba'
-REGION='ap-southeast-2'
+HTTP_ENDPOINT='http://myserver.com:3000'
 INSTANCE='i-123485'
+LOG_FILE_PATH='/tmp/mc-control.log'
