@@ -25,7 +25,6 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s ',
                     level=logging.INFO)
 logging.getLogger('boto').propagate = False
 boto.set_file_logger('boto', LOG_FILE_PATH)
-logging.getLogger('requests').addHandler
 
 class EC2Instance():
     def __init__(self):
@@ -42,7 +41,7 @@ class EC2Instance():
         except EC2ResponseError, e:
             message = "Instance %s not found. Double check instance id "\
                       "in settings" % self.instance_id
-            logging.error(message)
+            logger.error(message)
 
     def status(self):
         self.get_instance()
@@ -57,7 +56,7 @@ class EC2Instance():
             except requests.exceptions.Timeout:
                 status = 'pending'
         if status != self.last_status:
-            logging.info("Status changed from %s to %s"
+            logger.info("Status changed from %s to %s"
                          % (self.last_status, status))
             self.last_status = status
         return status
@@ -66,11 +65,11 @@ class EC2Instance():
         current_status = self.status()
         if current_status == 'running':
             self.inst.stop()
-            logging.info("Stopping server.")
+            logger.info("Stopping server.")
             return "Stopping..."
         elif current_status == 'stopped':
             self.inst.start()
-            logging.info("Starting server.")
+            logger.info("Starting server.")
             return "Starting..."
         else:
             return "Please try again when the server is stopped or running"
