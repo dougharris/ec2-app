@@ -1,7 +1,8 @@
 import sys
 import logging
 import warnings
-import requests
+import urllib2
+import socket
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
@@ -47,13 +48,14 @@ class EC2Instance():
         self.get_instance()
         status = self.inst.state
         if status == 'running' and self.last_status != 'running':
+            logging.info("Server up, checking %s" % HTTP_ENDPOINT)
             try:
-                http_check = requests.head(HTTP_ENDPOINT, timeout=2)
-                if http_check.status_code == 200:
-                    status = 'running'
-                else:
-                    status = 'pending'    
-            except requests.exceptions.Timeout:
+                response = urllib2.urlopen(HTTP_ENDPOINT, None, 2.5)
+            except urllib2.URLError, e:
+                logger.warning("URLError caught (%s)" % e.reason)
+                status = 'pending'
+            except socket.timeout:
+                logger.warning("Socket timeout caught")
                 status = 'pending'
         if status != self.last_status:
             logger.info("Status changed from %s to %s"
