@@ -20,7 +20,7 @@ directory where you've checked this out:
 
     $ virtualenv env                  # create the virtual environment
     $ . env/bin/activate              # activate the environment
-    $ pip install < requirements.txt  # install boto, et al.
+    $ pip install -r requirements.txt  # install boto, et al.
 
 ### Settings
 
