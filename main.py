@@ -54,7 +54,6 @@ class App():
     def action(self):
         try:
             result = self.instance.toggle()
-            tkMessageBox.showinfo("Status", result)
         except InstanceException, e:
             tkMessageBox.showwarning("Warning", e.value)
 
